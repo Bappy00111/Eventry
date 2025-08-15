@@ -3,9 +3,15 @@ import { userModel } from "@/model/user-model";
 import { replaceMongoId, replaceMongoIdInArray } from "@/utils/data-util";
 import mongoose from "mongoose";
 
-async function getAllEvents() {
-  const events = await eventModel.find().lean();
-  return replaceMongoIdInArray(events);
+async function getAllEvents(query) {
+  let allEvents = [];
+  if (query) {
+    const regex = new RegExp(query, "i");
+    allEvents = await eventModel.find({ name: { $regex: regex } }).lean();
+  } else {
+    allEvents = await eventModel.find().lean();
+  }
+  return replaceMongoIdInArray(allEvents);
 }
 
 async function getEventById(id) {
@@ -45,9 +51,9 @@ async function updateInterest(eventId, authId) {
 }
 
 async function updateGoing(eventId, authId) {
-    const event = await eventModel.findById(eventId);
-    event.going_ids.push(new mongoose.Types.ObjectId(authId));
-    event.save();
+  const event = await eventModel.findById(eventId);
+  event.going_ids.push(new mongoose.Types.ObjectId(authId));
+  event.save();
 }
 
 export {
@@ -56,5 +62,5 @@ export {
   createUser,
   foundUserByCredentials,
   updateInterest,
-  updateGoing
+  updateGoing,
 };
