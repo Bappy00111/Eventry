@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { connectToMongoDB } from "@/mongo";
+import connectMongo from "@/mongo";
 import AuthProvider from "@/providers/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -13,7 +13,7 @@ export const metadata = {
 
 
 export default async function RootLayout({ children }) {
-  await connectToMongoDB();
+  await connectMongo();
   // console.log("Connected to MongoDB successfully");
   return (
     <html lang="en">

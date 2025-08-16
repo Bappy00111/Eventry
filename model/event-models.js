@@ -32,4 +32,7 @@ const scheme = new Schema({
     
 })
 
-export const eventModel = mongoose.models.events ?? mongoose.model("events", scheme);
+export const eventModel = mongoose.models.event ?? mongoose.model("event", scheme);
+
+
+
